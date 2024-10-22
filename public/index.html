@@ -12,23 +12,28 @@
         <input type="text" id="name" name="name" required>
         <button type="submit">Greet Me</button>
     </form>
-    <div id="greeting-message"></div> <!-- Placeholder for greeting message -->
-    
+    <div id="greeting"></div>
+
     <script>
         document.getElementById('greet-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-
+            event.preventDefault(); // Prevent the default form submission
+            
             const name = document.getElementById('name').value;
+            const url = `https://us-central1-my-new-node-app.cloudfunctions.net/greetUser?name=${encodeURIComponent(name)}`;
 
-            // Make a fetch request to the greet endpoint
-            fetch(`/greet?name=${encodeURIComponent(name)}`)
-                .then(response => response.text())
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
                 .then(data => {
-                    document.getElementById('greeting-message').innerHTML = data; // Display the greeting
+                    document.getElementById('greeting').innerText = data; // Display the greeting
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    document.getElementById('greeting-message').innerHTML = 'An error occurred while greeting.';
+                    document.getElementById('greeting').innerText = 'An error occurred: ' + error.message;
                 });
         });
     </script>
