@@ -5,17 +5,17 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Route for the home page
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+// Serve static files from the public directory
+app.use(express.static('public'));
 
-// New route for greeting
+// Route for greeting
 app.get('/greet', (req, res) => {
-  const name = req.query.name || 'Guest'; // Default to 'Guest' if no name is provided
-  res.send(`Hello, ${name}!`);
+    const name = req.query.name || 'Guest';
+    res.send(`Hello, ${name}!`);
 });
 
+// Listen on the specified port
 app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+    console.log(`Server running on port ${port}`);
 });
+
