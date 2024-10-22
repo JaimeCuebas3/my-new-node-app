@@ -7,10 +7,30 @@
 </head>
 <body>
     <h1>Hello World!</h1>
-    <form action="/greet" method="get">
+    <form id="greet-form">
         <label for="name">Enter your name:</label>
         <input type="text" id="name" name="name" required>
         <button type="submit">Greet Me</button>
     </form>
+    <div id="greeting-message"></div> <!-- Placeholder for greeting message -->
+    
+    <script>
+        document.getElementById('greet-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('name').value;
+
+            // Make a fetch request to the greet endpoint
+            fetch(`/greet?name=${encodeURIComponent(name)}`)
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('greeting-message').innerHTML = data; // Display the greeting
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('greeting-message').innerHTML = 'An error occurred while greeting.';
+                });
+        });
+    </script>
 </body>
 </html>
