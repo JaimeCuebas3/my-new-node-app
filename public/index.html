@@ -7,35 +7,11 @@
 </head>
 <body>
     <h1>Hello World!</h1>
-    <form id="greet-form">
+    <form action="/greet" method="post">
         <label for="name">Enter your name:</label>
         <input type="text" id="name" name="name" required>
         <button type="submit">Greet Me</button>
     </form>
-    <div id="greeting"></div>
-
-    <script>
-        document.getElementById('greet-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-            
-            const name = document.getElementById('name').value;
-            const url = `https://us-central1-my-new-node-app.cloudfunctions.net/greetUser?name=${encodeURIComponent(name)}`;
-
-            fetch(url)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById('greeting').innerText = data; // Display the greeting
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('greeting').innerText = 'An error occurred: ' + error.message;
-                });
-        });
-    </script>
+    <div id="greetingMessage"></div>
 </body>
 </html>

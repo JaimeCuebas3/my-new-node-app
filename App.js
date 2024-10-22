@@ -8,9 +8,17 @@ const port = process.env.PORT || 3000;
 // Serve static files from the public directory
 app.use(express.static('public'));
 
+// Parse URL-encoded bodies (for form submissions)
+app.use(express.urlencoded({ extended: true }));
+
+// Route for Hello World
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
 // Route for greeting
-app.get('/greet', (req, res) => {
-    const name = req.query.name || 'Guest';
+app.post('/greet', (req, res) => {
+    const name = req.body.name || 'Guest';
     res.send(`Hello, ${name}!`);
 });
 
